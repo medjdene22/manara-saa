@@ -1,0 +1,11 @@
+{
+  "name": "project3-serverless-api",
+  "version": "1.0.0",
+  "description": "Minimal Serverless REST API for graduation project",
+  "main": "src/index.js",
+  "scripts": {
+    "testart": "node src/index.js"
+  },
+  "author": "Imad Eddien Medjdene",
+  "license": "MIT"
+}

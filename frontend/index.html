@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Items API Frontend</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                margin: 2rem;
+            }
+            input,
+            button {
+                margin: 0.25rem;
+                padding: 0.5rem;
+            }
+            pre {
+                background: #f4f4f4;
+                padding: 1rem;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Items API</h1>
+
+        <section>
+            <h2>Create Item</h2>
+            <input type="text" id="create-id" placeholder="Item ID" />
+            <input type="text" id="create-value" placeholder="Value" />
+            <button onclick="createItem()">Create</button>
+        </section>
+
+        <section>
+            <h2>Get Item</h2>
+            <input type="text" id="get-id" placeholder="Item ID" />
+            <button onclick="getItem()">Fetch</button>
+        </section>
+
+        <section>
+            <h2>Update Item</h2>
+            <input type="text" id="update-id" placeholder="Item ID" />
+            <input type="text" id="update-value" placeholder="New Value" />
+            <button onclick="updateItem()">Update</button>
+        </section>
+
+        <section>
+            <h2>Delete Item</h2>
+            <input type="text" id="delete-id" placeholder="Item ID" />
+            <button onclick="deleteItem()">Delete</button>
+        </section>
+
+        <section>
+            <h2>All Items</h2>
+            <button onclick="listItems()">Refresh</button>
+        </section>
+
+        <h2>Response</h2>
+        <pre id="output"></pre>
+
+        <script>
+            const API_BASE =
+                "https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com";
+
+            const output = document.getElementById("output");
+
+            function show(data) {
+                output.textContent = JSON.stringify(data, null, 2);
+            }
+
+            async function listItems() {
+                const res = await fetch(`${API_BASE}/items`);
+                show(await res.json());
+            }
+
+            async function getItem() {
+                const id = document.getElementById("get-id").value;
+                const res = await fetch(`${API_BASE}/items/${id}`);
+                show(await res.json());
+            }
+
+            async function createItem() {
+                const id = document.getElementById("create-id").value;
+                const value = document.getElementById("create-value").value;
+                const res = await fetch(`${API_BASE}/items`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id, value }),
+                });
+                show(await res.json());
+            }
+
+            async function updateItem() {
+                const id = document.getElementById("update-id").value;
+                const value = document.getElementById("update-value").value;
+                const res = await fetch(`${API_BASE}/items/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ value }),
+                });
+                show(await res.json());
+            }
+
+            async function deleteItem() {
+                const id = document.getElementById("delete-id").value;
+                const res = await fetch(`${API_BASE}/items/${id}`, {
+                    method: "DELETE",
+                });
+                if (res.status === 204) {
+                    show({ message: `Item ${id} deleted.` });
+                } else {
+                    show(await res.json());
+                }
+            }
+        </script>
+    </body>
+</html>
