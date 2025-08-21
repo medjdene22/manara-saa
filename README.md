@@ -1,5 +1,4 @@
 # Serverless ToDo API (Minimal) — AWS SAM
-Author: Ayman Aly Mahmoud — ayman@manara.tech
 ## What this project is
 A minimal Serverless REST API that implements CRUD operations for an "items"
 collection.
